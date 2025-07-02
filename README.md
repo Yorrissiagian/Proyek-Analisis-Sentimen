@@ -117,19 +117,3 @@ Tahapan pembersihan dan pemrosesan teks meliputi:
 
 * `data_scraping_gojek.csv`: Dataset final setelah preprocessing dan pelabelan.
 * Visualisasi Pie Chart dan WordCloud tersedia di dalam notebook.
-
----
-
-### 📦 Library yang Digunakan
-
-* `google-play-scraper`
-* `pandas`, `nltk`, `Sastrawi`
-* `sklearn`, `matplotlib`, `wordcloud`
-* `tensorflow.keras` (opsional)
-
----
-
-> ✍️ *README ini hanya berisi informasi dari proses dan hasil yang benar-benar ada di dalam skrip notebook yang kamu berikan.*
-
-Jika kamu ingin versi markdown file `.md` langsung siap unggah, tinggal bilang.
-
