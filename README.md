@@ -1,56 +1,122 @@
 # Proyek-Analisis-Sentimen
 Submission kelas Belajar Fundamental Deep Learning (Laskar AI &amp; Dicoding)
 🚖 Analisis Sentimen Review Gojek
-Proyek ini bertujuan untuk melakukan scraping data ulasan aplikasi Gojek dari Google Play Store dan melakukan klasifikasi sentimen (positif vs negatif) berdasarkan teks ulasan pengguna.
+Proyek ini berfokus pada scraping, preprocessing, pelabelan sentimen berbasis lexicon, visualisasi, serta klasifikasi menggunakan model MLP terhadap review aplikasi Gojek dari Google Play Store.
 
-Terdiri dari dua bagian utama:
+📌 Tujuan
+Mengambil data review aplikasi Gojek.
 
-📥 Web Scraping — Mengambil data ulasan dari Google Play Store.
+Membersihkan dan memproses teks review.
 
-🧠 Klasifikasi Sentimen — Memprediksi sentimen dari teks ulasan menggunakan Machine Learning.
+Melakukan pelabelan sentimen menggunakan pendekatan lexicon-based.
 
-📥 1. Scraping Ulasan Gojek
-Deskripsi
-Notebook ini mengambil review aplikasi Gojek dari Google Play Store menggunakan pustaka google-play-scraper.
+Menampilkan visualisasi distribusi sentimen dan WordCloud.
 
-Langkah-langkah
-Menentukan parameter scraping (jumlah ulasan, bahasa, negara).
+Melatih model klasifikasi sentimen menggunakan MLPClassifier.
 
-Menyimpan hasil scraping ke dalam DataFrame.
+🔍 1. Scraping Data
+Menggunakan google-play-scraper.
 
-Mengekspor data ke file CSV untuk digunakan dalam proses selanjutnya.
+Aplikasi: com.gojek.app.
 
-Output
-gojek_reviews.csv — Dataset berisi teks ulasan dan rating dari pengguna.
+Bahasa: Indonesia (id).
 
-🧠 2. Klasifikasi Sentimen
-Deskripsi
-Notebook ini membangun model Machine Learning untuk memprediksi sentimen (positif/negatif) dari ulasan pengguna terhadap aplikasi Gojek.
+Total ulasan diambil: 10.000.
 
-Alur Pengerjaan
-Data Preparation
+Hanya review dengan sort MOST_RELEVANT.
 
-Labeling otomatis berdasarkan rating: >=4 dianggap positif, sisanya negatif.
+Data disimpan dalam DataFrame dan dibersihkan dari nilai NaN.
 
-Text preprocessing: lowercasing, penghapusan tanda baca, stopwords removal, stemming.
+🧹 2. Preprocessing Teks
+Tahapan pembersihan dan pemrosesan teks meliputi:
 
-Feature Extraction
+Cleaning: Hapus mention, hashtag, angka, tanda baca, newline, dan link.
 
-Menggunakan TF-IDF Vectorizer.
+Case Folding: Konversi ke huruf kecil.
 
-Modeling
+Slang Correction: Mengubah kata informal ke bentuk baku (contoh: "abis" → "habis").
 
-Algoritma: Logistic Regression (baseline), Naive Bayes, dan SVM.
+Tokenization: Pecah kalimat menjadi token.
 
-Evaluasi menggunakan accuracy, precision, recall, F1-score.
+Stopword Removal: Menghapus kata umum Bahasa Indonesia dan Inggris.
 
-Eksperimen
+Stemming: Menggunakan Sastrawi untuk kata dasar.
 
-Perbandingan performa antar model.
+Rekonstruksi: Token bersih dijadikan kembali sebagai kalimat utuh.
 
-Confusion matrix dan classification report.
+🏷️ 3. Labeling Sentimen (Lexicon-Based)
+Menggunakan dua kamus:
 
-Output
-Model klasifikasi terlatih.
+lexicon_positive.csv
 
-Visualisasi performa model.
+lexicon_negative.csv
+
+Proses:
+
+Skor sentimen dihitung dari jumlah kata positif dan negatif.
+
+Label ditentukan:
+
+positive jika skor ≥ 0
+
+negative jika skor < 0
+
+Hasil disimpan pada kolom polarity_score dan sentiment.
+
+📊 4. Visualisasi
+Pie Chart untuk distribusi sentimen positif dan negatif.
+
+WordCloud untuk:
+
+Seluruh review
+
+Review positif
+
+Review negatif
+
+🤖 5. Modeling: Klasifikasi dengan MLP
+Ekstraksi Fitur:
+Menggunakan TF-IDF dengan:
+
+min_df=5
+
+max_df=0.8
+
+sublinear_tf=True
+
+Pembagian Data:
+80% training, 20% testing.
+
+Model:
+Menggunakan MLPClassifier dari scikit-learn.
+
+Konfigurasi:
+
+python
+Salin
+Edit
+hidden_layer_sizes=(512, 256, 128)
+activation='relu'
+solver='adam'
+alpha=1.0
+learning_rate='adaptive'
+max_iter=1000
+early_stopping=True
+Hasil Evaluasi:
+Akurasi Training: 98.11%
+
+Akurasi Testing: 92.14%
+
+Classification Report dicetak di output notebook.
+
+💡 Insight
+Dataset berhasil disiapkan melalui preprocessing teks dan labeling berbasis lexicon.
+
+WordCloud berhasil menunjukkan kata-kata dominan berdasarkan sentimen.
+
+Model MLP menunjukkan performa tinggi dengan akurasi testing 92.14%, menandakan kemampuan klasifikasi yang kuat terhadap review positif dan negatif aplikasi Gojek.
+
+💾 Output
+data_scraping_gojek.csv: Dataset final setelah preprocessing dan pelabelan.
+
+Visualisasi Pie Chart dan WordCloud tersedia di dalam notebook.
